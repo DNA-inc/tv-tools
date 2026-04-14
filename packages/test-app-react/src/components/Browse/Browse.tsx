@@ -6,8 +6,8 @@ import {
 	useFocusManager,
 } from '@salik1992/tv-tools-react/focus';
 import { ListType } from '@salik1992/test-app-data/types';
-import type { TmdbConfigurationFilters } from '@salik1992/test-app-data-tmdb';
 import { validateId } from '@salik1992/test-app-data/validations';
+import type { TmdbConfigurationFilters } from '@salik1992/test-app-data-tmdb';
 import { useAssertedParams } from '../../hooks/useAssertedParams';
 import { useBrowseData } from '../../hooks/useBrowseData';
 import { AssetsRow } from '../AssetsRow';

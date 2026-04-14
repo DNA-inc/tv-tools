@@ -62,7 +62,6 @@ export const BROWSE = {
 				type: 'movie',
 				timeWindow: 'day',
 				title: 'Trending Movies',
-       // TODO validate that usage of type below is correct 
 				pageItemType: 'movie',
 			},
 		},
@@ -74,7 +73,6 @@ export const BROWSE = {
 				type: 'series',
 				timeWindow: 'day',
 				title: 'Trending TV',
-       // TODO validate usage of type below
 				pageItemType: 'series',
 			},
 		},
@@ -85,7 +83,6 @@ export const BROWSE = {
 				filterBy: 'discover',
 				type: 'movie',
 				title: 'Discover Movies',
-       // TODO validate usage of type
 				pageItemType: 'movie',
 			},
 		},
@@ -96,7 +93,6 @@ export const BROWSE = {
 				filterBy: 'discover',
 				type: 'series',
 				title: 'Discover TV',
-       // TODO validate usage of type
 				pageItemType: 'series',
 			},
 		},

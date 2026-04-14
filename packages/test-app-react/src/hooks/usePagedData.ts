@@ -1,6 +1,10 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ns } from '@salik1992/tv-tools/logger';
-import type { Asset, Paged, ShowAllAsset } from '@salik1992/test-app-data/types';
+import type {
+	Asset,
+	Paged,
+	ShowAllAsset,
+} from '@salik1992/test-app-data/types';
 import { type ListDataConfiguration, useDataProvider } from '../data';
 
 const logger = ns('[usePagedData]');
@@ -18,17 +22,14 @@ export const usePagedData = (
 	const [pagedData, setPagedData] = useState<Paged<Asset>>({
 		pages: 0,
 	});
-	const data = useMemo(
-		() => {
-			const pages = Object.keys(pagedData)
-				.filter((key) => key !== 'pages')
-				.map((key) => Number(key))
-				.filter((page) => !Number.isNaN(page))
-				.sort((a, b) => a - b);
-			return pages.flatMap((page) => pagedData[page] ?? []) as Asset[];
-		},
-		[pagedData],
-	);
+	const data = useMemo(() => {
+		const pages = Object.keys(pagedData)
+			.filter((key) => key !== 'pages')
+			.map((key) => Number(key))
+			.filter((page) => !Number.isNaN(page))
+			.sort((a, b) => a - b);
+		return pages.flatMap((page) => pagedData[page] ?? []) as Asset[];
+	}, [pagedData]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<unknown>(null);
 	const fetchedPages = useRef<number>(0);
