@@ -10,7 +10,9 @@
 	"scripts": {
 		"prepare": "husky",
 		"postinstall": "patch-package",
+		"dev": "npm run build --workspace @salik1992/tv-tools && npm run build --workspace @salik1992/tv-tools-react && npm run build --workspace @salik1992/test-app-data && npm run build --workspace @salik1992/test-app-data-tmdb && npm run dev --workspace @salik1992/test-app-react",
 		"lintcheck": "npm run lintcheck --workspaces",
+		"lintfix": "npm run lintcheck --workspaces -- --fix",
 		"test": "jest",
 		"test:coverage": "jest --coverage",
 		"typecheck": "npm run typecheck --workspaces"
