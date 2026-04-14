@@ -14,7 +14,7 @@ export enum ListType {
 
 export type ConfigurationFilter = {
 	filterBy: string;
-	type?: string;
+	type?: AssetType | 'series';
 	query?: string;
 	id?: Id;
 	title: string;

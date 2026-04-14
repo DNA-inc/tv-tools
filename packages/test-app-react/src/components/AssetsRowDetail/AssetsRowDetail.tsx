@@ -7,12 +7,12 @@ export const AssetsRowDetail = ({
 	asset,
 }: {
 	visible: boolean;
-	asset: Asset & AssetDescription;
+	asset?: Asset & Partial<AssetDescription>;
 }) => (
 	<div className={`${css.wrap} ${visible ? css.visible : ''}`}>
-		<H4 className={css.title}>{asset.title}</H4>
+		<H4 className={css.title}>{asset?.title ?? '-'}</H4>
 		<P className={css.description}>
-			{asset.description || 'No description provided.'}
+			{asset?.description || 'No description provided.'}
 		</P>
 	</div>
 );

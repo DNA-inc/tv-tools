@@ -43,6 +43,7 @@ export const DetailSeries = ({
 					type: 'series',
 					title: 'Cast & Crew',
 					id: asset.id,
+					pageItemType: 'person',
 				}}
 				showDetail={false}
 				onFocus={scroll(7 * ROW)}
@@ -55,6 +56,7 @@ export const DetailSeries = ({
 					type: 'series',
 					title: 'You might also like',
 					id: asset.id,
+					pageItemType: 'series',
 				}}
 				showDetail={false}
 				onFocus={scroll(14 * ROW)}

@@ -63,6 +63,7 @@ export const DetailPerson = ({
 					type: 'movie',
 					title: 'Movies',
 					id: asset.id,
+					pageItemType: 'movie',
 				}}
 				showDetail={false}
 				onFocus={scroll(7 * ROW)}
@@ -75,6 +76,7 @@ export const DetailPerson = ({
 					type: 'series',
 					title: 'Series',
 					id: asset.id,
+					pageItemType: 'series',
 				}}
 				showDetail={false}
 				onFocus={scroll(14 * ROW)}

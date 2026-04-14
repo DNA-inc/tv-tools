@@ -3,7 +3,7 @@ import type {
 	AssetMapping,
 	AssetType,
 	BrowseItem,
-	DefaultFilter,
+	ConfigurationFilter,
 	Id,
 	ImageSize,
 	ImageType,
@@ -13,7 +13,7 @@ import type {
 
 export abstract class DataProvider<
 	Configuration extends {
-		filter: DefaultFilter;
+		filter: ConfigurationFilter;
 	},
 > {
 	public abstract initialize(): Promise<void>;
