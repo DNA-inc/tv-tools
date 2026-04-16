@@ -56,6 +56,7 @@ export const Search = () => {
 								type: 'movie',
 								title: `Movies matching "${searchQuery}"`,
 								query: searchQuery,
+								pageItemType: 'movie',
 							}}
 							showDetail={false}
 						/>
@@ -65,6 +66,7 @@ export const Search = () => {
 								type: 'series',
 								title: `TV matching "${searchQuery}"`,
 								query: searchQuery,
+								pageItemType: 'series',
 							}}
 							showDetail={false}
 						/>
@@ -74,6 +76,7 @@ export const Search = () => {
 								type: 'person',
 								title: `People matching "${searchQuery}"`,
 								query: searchQuery,
+								pageItemType: 'person',
 							}}
 							showDetail={false}
 						/>

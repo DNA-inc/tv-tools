@@ -2,7 +2,7 @@ import { type FocusEvent, useCallback, useMemo } from 'react';
 import type { RenderDataElement } from '@salik1992/tv-tools/list';
 import { BasicList } from '@salik1992/tv-tools/list/BasicList';
 import { List } from '@salik1992/tv-tools-react/list';
-import type { Asset, AssetDescription } from '@salik1992/test-app-data/types';
+import type { Asset } from '@salik1992/test-app-data/types';
 import { type ListDataConfiguration } from '../../data';
 import { usePagedData } from '../../hooks/usePagedData';
 import { Hero } from '../Hero';
@@ -43,12 +43,7 @@ export const HeroRow = ({
 	);
 
 	const renderElement = useCallback(
-		({
-			id,
-			item,
-			offset,
-			onFocus,
-		}: RenderDataElement<Asset & AssetDescription>) => (
+		({ id, item, offset, onFocus }: RenderDataElement<Asset>) => (
 			<Hero
 				id={id}
 				key={id}

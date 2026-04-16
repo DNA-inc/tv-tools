@@ -32,6 +32,9 @@ import type {
 	TrendingTimeWindow,
 } from './types';
 
+const hasAssetImages = (asset: Asset): asset is Asset & AssetImages =>
+	'images' in asset;
+
 export class TmdbDataProvider extends DataProvider<TmdbConfiguration> {
 	private configuration: Configuration | undefined;
 
@@ -46,11 +49,11 @@ export class TmdbDataProvider extends DataProvider<TmdbConfiguration> {
 	}
 
 	public override getImageUrl(
-		asset: AssetImages,
+		asset: Asset,
 		types: ImageType[],
 		imageSize: ImageSize,
 	) {
-		if (!this.configuration) {
+		if (!this.configuration || !hasAssetImages(asset)) {
 			return null;
 		}
 		const availableTypes = types.filter(

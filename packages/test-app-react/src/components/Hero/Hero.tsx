@@ -16,13 +16,20 @@ const WIDTH = 66 * COLUMN;
 const HEIGHT = 19 * ROW;
 const MARGIN = 5 * COLUMN;
 
+const getAssetDescription = (asset?: Asset) => {
+	if (!asset || !('description' in asset)) {
+		return NBSP;
+	}
+	return (asset as Asset & Partial<AssetDescription>).description ?? NBSP;
+};
+
 export const Hero = ({
 	asset,
 	id,
 	style,
 	onFocus,
 }: {
-	asset?: Asset & AssetDescription;
+	asset?: Asset;
 	id?: string;
 	style?: ComponentProps<'div'>['style'];
 	onFocus?: (event: FocusEvent) => void;
@@ -70,7 +77,7 @@ export const Hero = ({
 				</div>
 			)}
 			<H1 className={css.text}>{asset?.title ?? NBSP}</H1>
-			<P className={css.text}>{asset?.description ?? NBSP}</P>
+			<P className={css.text}>{getAssetDescription(asset)}</P>
 		</Interactable>
 	);
 };

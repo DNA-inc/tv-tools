@@ -1,6 +1,10 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ns } from '@salik1992/tv-tools/logger';
-import type { Paged } from '@salik1992/test-app-data/types';
+import type {
+	Asset,
+	Paged,
+	ShowAllAsset,
+} from '@salik1992/test-app-data/types';
 import { type ListDataConfiguration, useDataProvider } from '../data';
 
 const logger = ns('[usePagedData]');
@@ -15,18 +19,17 @@ export const usePagedData = (
 ) => {
 	const mounted = useRef(true);
 	const dataProvider = useDataProvider();
-	const [pagedData, setPagedData] = useState<
-		Paged<(typeof listData)['pageItemType']>
-	>({
+	const [pagedData, setPagedData] = useState<Paged<Asset>>({
 		pages: 0,
 	});
-	const data = useMemo(
-		() =>
-			Object.entries(pagedData)
-				.filter(([key]) => key !== 'pages')
-				.flatMap(([, value]) => value),
-		[pagedData],
-	);
+	const data = useMemo(() => {
+		const pages = Object.keys(pagedData)
+			.filter((key) => key !== 'pages')
+			.map((key) => Number(key))
+			.filter((page) => !Number.isNaN(page))
+			.sort((a, b) => a - b);
+		return pages.flatMap((page) => pagedData[page] ?? []) as Asset[];
+	}, [pagedData]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<unknown>(null);
 	const fetchedPages = useRef<number>(0);
@@ -47,6 +50,12 @@ export const usePagedData = (
 				listData,
 				pageIndex,
 			);
+			const showAllAsset: ShowAllAsset = {
+				id: 'show-all',
+				type: 'show-all',
+				title: 'Show All >>>',
+				data: JSON.stringify(listData),
+			};
 			const dataToAppend =
 				!appendShowAll || fetchedData.pages < 2
 					? fetchedData
@@ -54,14 +63,7 @@ export const usePagedData = (
 							...fetchedData,
 							[pageIndex]: [
 								...(fetchedData[pageIndex] || []),
-								{
-									id: 'show-all',
-									type: 'show-all',
-									title: 'Show All >>>',
-									description:
-										'Show all items in this category',
-									data: JSON.stringify(listData),
-								},
+								showAllAsset,
 							],
 						};
 			if (mounted.current) {

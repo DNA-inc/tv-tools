@@ -28,7 +28,7 @@ const validateFilter = (value: unknown): ListDataConfiguration => {
 	}
 };
 
-export const DiscoverInner = ({ filter }: ListDataConfiguration) => {
+export const DiscoverInner = (filter: ListDataConfiguration) => {
 	const { data, pages, loading, error, fetchNextPage } = usePagedData(filter);
 
 	const onDataIndex = useCallback(
@@ -110,5 +110,5 @@ export const Discover = () => {
 	const { filter: key } = useParams();
 	const { filter } = useAssertedParams({ filter: validateFilter });
 
-	return <DiscoverInner key={key} filter={filter} />;
+	return <DiscoverInner key={key} {...filter} />;
 };

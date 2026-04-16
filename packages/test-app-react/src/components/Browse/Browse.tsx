@@ -7,6 +7,7 @@ import {
 } from '@salik1992/tv-tools-react/focus';
 import { ListType } from '@salik1992/test-app-data/types';
 import { validateId } from '@salik1992/test-app-data/validations';
+import type { TmdbConfigurationFilters } from '@salik1992/test-app-data-tmdb';
 import { useAssertedParams } from '../../hooks/useAssertedParams';
 import { useBrowseData } from '../../hooks/useBrowseData';
 import { AssetsRow } from '../AssetsRow';
@@ -97,6 +98,8 @@ export const Browse = () => {
 						)}
 						{data &&
 							data.map(({ listType, listData, id }, i) => {
+								const typedListData =
+									listData as TmdbConfigurationFilters;
 								const focusId = i === 0 ? topRowId : undefined;
 								const key = `${browseId}-${id}`;
 								switch (listType) {
@@ -105,7 +108,7 @@ export const Browse = () => {
 											<HeroRow
 												key={key}
 												id={focusId}
-												listData={listData}
+												listData={typedListData}
 												onFocus={onFocuses[i]}
 												focusOnMount={i === 0}
 												showAll
@@ -116,7 +119,7 @@ export const Browse = () => {
 											<AssetsRow
 												key={key}
 												id={focusId}
-												listData={listData}
+												listData={typedListData}
 												showDetail={index === i}
 												onFocus={onFocuses[i]}
 												showAll
