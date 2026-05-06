@@ -4,6 +4,7 @@ import { device } from '@salik1992/tv-tools/device';
 import { logger as loggerGlobal, ns } from '@salik1992/tv-tools/logger';
 import { FocusProvider } from '@salik1992/tv-tools-react/focus';
 import { useDataProvider } from '../../data';
+import { useViewport } from '../../hooks/useViewport';
 import { BackNavigation } from '../BackNavigation';
 import { Browse } from '../Browse';
 import { Detail } from '../Detail';
@@ -49,6 +50,7 @@ const NOT_FOUND = {
 export const App = () => {
 	const [isReady, setIsReady] = useState(false);
 	const [error, setError] = useState<unknown | null>(null);
+	const viewport = useViewport();
 	const dataProvider = useDataProvider();
 
 	useEffect(() => {
@@ -67,6 +69,18 @@ export const App = () => {
 			}
 		})();
 	}, []);
+
+	useEffect(() => {
+		document.documentElement.style.setProperty(
+			'--app-viewport-width',
+			`${viewport.width}px`,
+		);
+		document.documentElement.style.setProperty(
+			'--app-viewport-height',
+			`${viewport.height}px`,
+		);
+		logger.info('Viewport updated', viewport);
+	}, [viewport]);
 
 	return (
 		<>
