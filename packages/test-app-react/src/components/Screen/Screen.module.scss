@@ -4,10 +4,7 @@
 
 .container {
 	position: absolute;
-	top: 0;
-	left: 0;
-	width: 1920px;
-	height: 1080px;
+  inset: 0;
 	padding-left: 3 * sizes.$column;
 	padding-right: 3 * sizes.$column;
 	overflow: hidden;
