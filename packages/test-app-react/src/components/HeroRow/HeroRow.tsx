@@ -5,6 +5,7 @@ import { List } from '@salik1992/tv-tools-react/list';
 import type { Asset } from '@salik1992/test-app-data/types';
 import { type ListDataConfiguration } from '../../data';
 import { usePagedData } from '../../hooks/usePagedData';
+import { useResponsiveUxTokens } from '../../hooks/useResponsiveUxTokens';
 import { Hero } from '../Hero';
 import { Performance } from '../Theme';
 import { H3 } from '../Typography';
@@ -23,6 +24,7 @@ export const HeroRow = ({
 	focusOnMount?: boolean;
 	onFocus?: (event: FocusEvent) => void;
 }) => {
+	const { numberOfTilesInHeroCarousel } = useResponsiveUxTokens();
 	const { data, pages, loading, error } = usePagedData(listData, {
 		appendShowAll: showAll,
 	});
@@ -32,14 +34,14 @@ export const HeroRow = ({
 			performance: Performance,
 			visibleElements: 5,
 			config: {
-				navigatableElements: 2,
+				navigatableElements: numberOfTilesInHeroCarousel,
 				scrolling: {
 					first: Hero.width,
 					other: Hero.width,
 				},
 			},
 		}),
-		[],
+		[numberOfTilesInHeroCarousel],
 	);
 
 	const renderElement = useCallback(

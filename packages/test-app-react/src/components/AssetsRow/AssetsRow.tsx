@@ -5,6 +5,7 @@ import { List } from '@salik1992/tv-tools-react/list';
 import type { Asset } from '@salik1992/test-app-data/types';
 import { type ListDataConfiguration } from '../../data';
 import { usePagedData } from '../../hooks/usePagedData';
+import { useResponsiveUxTokens } from '../../hooks/useResponsiveUxTokens';
 import { AssetsRowDetail } from '../AssetsRowDetail';
 import { Performance } from '../Theme';
 import { Tile } from '../Tile';
@@ -31,6 +32,7 @@ export const AssetsRow = ({
 	showAll?: boolean;
 }) => {
 	const [focusedIndex, setFocusedIndex] = useState(0);
+	const { numberOfTilesInCarousel } = useResponsiveUxTokens();
 
 	const { data, pages, loading, error, fetchNextPage } = usePagedData(
 		listData,
@@ -52,14 +54,14 @@ export const AssetsRow = ({
 			performance: Performance,
 			visibleElements: 9,
 			config: {
-				navigatableElements: 7,
+				navigatableElements: numberOfTilesInCarousel,
 				scrolling: {
 					first: Tile.width / 1.3,
 					other: Tile.width,
 				},
 			},
 		}),
-		[],
+		[numberOfTilesInCarousel],
 	);
 
 	const renderElement = useCallback(

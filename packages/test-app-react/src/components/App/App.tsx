@@ -13,6 +13,7 @@ import { Discover } from '../Discover';
 import { ModalProvider } from '../Modal';
 import { NotFound } from '../NotFound';
 import { Providers } from '../Providers';
+import { ResponsiveUxTokensProvider } from '../ResponsiveUxTokensProvider';
 import { ScreenCentered } from '../ScreenCentered';
 import { Search } from '../Search';
 import { H1 } from '../Typography';
@@ -98,6 +99,7 @@ export const App = () => {
 				{isReady && !error && (
 					<Providers
 						providers={[
+							ResponsiveUxTokensProvider,
 							ModalProvider,
 							VirtualKeyboardProvider,
 							Router,
