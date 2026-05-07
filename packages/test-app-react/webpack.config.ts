@@ -2,6 +2,7 @@ import dotenv from 'dotenv';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import webpack from 'webpack';
+import { themeImporter } from './sass-theme-importer';
 
 dotenv.config({ path: './.env' });
 
@@ -63,7 +64,14 @@ const config: webpack.Configuration = {
 						loader: 'css-loader',
 						options: { modules: true },
 					},
-					'sass-loader',
+					{
+						loader: 'sass-loader',
+						options: {
+							sassOptions: {
+								importers: [themeImporter],
+							},
+						},
+					},
 				],
 			},
 		],
