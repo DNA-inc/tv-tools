@@ -1,35 +1,67 @@
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import type { CanonicalizeContext, Importer } from 'sass';
-import { tokens } from './src/components/Theme/tokens';
+import {
+	type TokenValue,
+	scssTokenBindings,
+	tokens,
+} from './src/components/Theme/tokens';
 
-const THEME_DIR = path.resolve(__dirname, 'src/components/Theme');
+const COMPONENTS_DIR = path.resolve(__dirname, 'src/components');
 const VIRTUAL_QUERY = 'tv-tools-theme-tokens';
 
-const namespaceFromUrl = (resolved: string): string | null => {
-	if (path.dirname(resolved) !== THEME_DIR) return null;
-	const base = path.basename(resolved, path.extname(resolved));
-	const namespace = base.startsWith('_') ? base.slice(1) : base;
-	return namespace in tokens ? namespace : null;
+const bindingFromResolvedPath = (
+	resolvedPath: string,
+): (typeof scssTokenBindings)[number] | null => {
+	const dir = path.dirname(resolvedPath);
+	const rawBase = path.basename(resolvedPath, path.extname(resolvedPath));
+	const moduleBaseName = rawBase.startsWith('_') ? rawBase.slice(1) : rawBase;
+	return (
+		scssTokenBindings.find(
+			(b) =>
+				path.join(COMPONENTS_DIR, b.folder) === dir &&
+				b.moduleBaseName === moduleBaseName,
+		) ?? null
+	);
 };
 
-const renderModule = (entries: Record<string, string>) =>
+const UNIT_ALIASES: Record<string, string> = {
+	unitless: '',
+	percent: '%',
+};
+
+const renderValue = (value: TokenValue): string => {
+	const entries = Object.entries(value);
+	if (entries.length !== 1) {
+		throw new Error(
+			`Token value must have exactly one unit entry, got: ${JSON.stringify(value)}`,
+		);
+	}
+	const [unit, n] = entries[0];
+	const cssUnit = unit in UNIT_ALIASES ? UNIT_ALIASES[unit] : unit;
+	return `${n}${cssUnit}`;
+};
+
+const renderModule = (entries: Record<string, TokenValue>) =>
 	Object.entries(entries)
-		.map(([name, value]) => `$${name}: ${value};`)
+		.map(([name, value]) => `$${name}: ${renderValue(value)};`)
 		.join('\n') + '\n';
 
-const buildVirtualUrl = (namespace: string): URL => {
-	const url = pathToFileURL(path.join(THEME_DIR, `_${namespace}.scss`));
+const buildVirtualUrl = (binding: (typeof scssTokenBindings)[number]): URL => {
+	const url = pathToFileURL(
+		path.join(
+			COMPONENTS_DIR,
+			binding.folder,
+			`_${binding.moduleBaseName}.scss`,
+		),
+	);
 	url.search = VIRTUAL_QUERY;
 	return url;
 };
 
 /**
- * Custom Sass importer so `@use '../Theme/<namespace>'` resolves to variables
- * sourced from `tokens.ts` (single source of truth for TS + SCSS).
- *
- * Any top-level key in `tokens` is exposed as a virtual SCSS module under the
- * `Theme/` directory with its entries as Sass variables.
+ * Custom Sass importer: `@use '<Folder>/<moduleBaseName>'` resolves to
+ * `tokens[binding.tokensKey]` — see `scssTokenBindings` in `tokens.ts`.
  */
 export const themeImporter: Importer<'sync'> = {
 	canonicalize(url: string, context: CanonicalizeContext) {
@@ -37,19 +69,19 @@ export const themeImporter: Importer<'sync'> = {
 			? fileURLToPath(context.containingUrl)
 			: '';
 		const resolved = path.resolve(
-			containing ? path.dirname(containing) : THEME_DIR,
+			containing ? path.dirname(containing) : COMPONENTS_DIR,
 			url,
 		);
-		const namespace = namespaceFromUrl(resolved);
-		return namespace ? buildVirtualUrl(namespace) : null;
+		const binding = bindingFromResolvedPath(resolved);
+		return binding ? buildVirtualUrl(binding) : null;
 	},
 	load(canonicalUrl) {
 		if (canonicalUrl.search !== `?${VIRTUAL_QUERY}`) return null;
-		const namespace = path
-			.basename(fileURLToPath(canonicalUrl), '.scss')
-			.replace(/^_/, '');
-		const entries = (tokens as Record<string, Record<string, string>>)[
-			namespace
+		const resolvedPath = fileURLToPath(canonicalUrl);
+		const binding = bindingFromResolvedPath(resolvedPath);
+		if (!binding) return null;
+		const entries = (tokens as Record<string, Record<string, TokenValue>>)[
+			binding.tokensKey
 		];
 		if (!entries) return null;
 		return {
