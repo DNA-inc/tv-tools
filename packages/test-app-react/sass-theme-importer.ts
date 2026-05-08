@@ -30,11 +30,11 @@ const UNIT_ALIASES: Record<string, string> = {
 	percent: '%',
 };
 
-const renderValue = (value: TokenValue): string => {
-	const entries = Object.entries(value);
+const renderValue = (tokenValue: TokenValue): string => {
+	const entries = Object.entries(tokenValue);
 	if (entries.length !== 1) {
 		throw new Error(
-			`Token value must have exactly one unit entry, got: ${JSON.stringify(value)}`,
+			`Token value must have exactly one unit entry, got: ${JSON.stringify(tokenValue)}`,
 		);
 	}
 	const [unit, n] = entries[0];
@@ -44,7 +44,10 @@ const renderValue = (value: TokenValue): string => {
 
 const renderModule = (entries: Record<string, TokenValue>) =>
 	Object.entries(entries)
-		.map(([name, value]) => `$${name}: ${renderValue(value)};`)
+		.map(
+			([cssProperty, cssPropertyValue]) =>
+				`$${cssProperty}: ${renderValue(cssPropertyValue)};`,
+		)
 		.join('\n') + '\n';
 
 const buildVirtualUrl = (binding: (typeof scssTokenBindings)[number]): URL => {
