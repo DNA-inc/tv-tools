@@ -1,9 +1,10 @@
 import { type ForwardedRef, type HTMLProps, forwardRef } from 'react';
+import { tokens } from '../Theme/tokens';
 import * as css from './Typography.module.scss';
 
-export const ROW = 30;
-export const COLUMN = 15;
-export const FONT = 25;
+export const ROW = tokens.typography.row.px;
+export const COLUMN = tokens.typography.column.px;
+export const FONT = tokens.typography.font.px;
 
 export const H1 = forwardRef(
 	(

@@ -1,13 +1,14 @@
 @use '../Menu/Menu.module.scss' as menu;
 @use '../Theme/colors' as colors;
+@use '../Theme/screen';
 @use '../Typography/sizes' as sizes;
 
 .container {
 	position: absolute;
-	top: 0;
 	left: 0;
-	width: 1920px;
-	height: 1080px;
+	top: 0;
+	width: screen.$width;
+	height: screen.$height;
 	padding-left: 3 * sizes.$column;
 	padding-right: 3 * sizes.$column;
 	overflow: hidden;

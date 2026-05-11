@@ -1,9 +1,12 @@
 @use '../Theme/colors' as colors;
+@use '../Theme/screen';
 
 html,
 body {
 	margin: 0;
 	padding: 0;
+	width: screen.$width;
+	height: screen.$height;
 }
 body {
 	background-color: #000000;
@@ -15,7 +18,7 @@ body {
 :global(#root) {
 	position: relative;
 	background-color: colors.$bg-primary;
-	width: 1920px;
-	height: 1080px;
+	width: screen.$width;
+	height: screen.$height;
 	overflow: hidden;
 }
