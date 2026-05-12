@@ -27,8 +27,7 @@ export interface IEventListener<
 
 export class EventListener<
 	Events extends { [key: string]: Events[keyof Events] },
-> implements IEventListener<Events>
-{
+> implements IEventListener<Events> {
 	/**
 	 * Listeners
 	 */

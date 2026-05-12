@@ -45,8 +45,10 @@ export interface RenderDataBase {
 	nextArrow: boolean;
 }
 
-export interface DataContainerBehavior<T, RenderData extends RenderDataBase>
-	extends IEventListener<{ dataIndex: number; renderData: RenderData }> {
+export interface DataContainerBehavior<
+	T,
+	RenderData extends RenderDataBase,
+> extends IEventListener<{ dataIndex: number; renderData: RenderData }> {
 	/**
 	 * Get current render data.
 	 * @returns RenderData data for current rendering purposes
