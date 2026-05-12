@@ -3,5 +3,5 @@
  * @type {import('lint-staged').Configuration}
  */
 export default {
-	'*.{ts,tsx}': ['eslint --fix', 'prettier --write', () => 'tsc --noEmit'],
+	'*.{ts,tsx}': ['eslint --fix', 'prettier --write', () => 'npm run typecheck'],
 };
