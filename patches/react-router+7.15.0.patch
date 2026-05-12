@@ -1,8 +1,8 @@
-diff --git a/node_modules/react-router/dist/development/chunk-AYJ5UCUI.mjs b/node_modules/react-router/dist/development/chunk-AYJ5UCUI.mjs
-index 2fc5597..be24ac5 100644
---- a/node_modules/react-router/dist/development/chunk-AYJ5UCUI.mjs
-+++ b/node_modules/react-router/dist/development/chunk-AYJ5UCUI.mjs
-@@ -6048,13 +6048,7 @@ async function loadRouteModule(route, routeModulesCache) {
+diff --git a/node_modules/react-router/dist/development/chunk-5KNZJZUH.mjs b/node_modules/react-router/dist/development/chunk-5KNZJZUH.mjs
+index 96185d2..355dbbd 100644
+--- a/node_modules/react-router/dist/development/chunk-5KNZJZUH.mjs
++++ b/node_modules/react-router/dist/development/chunk-5KNZJZUH.mjs
+@@ -8550,13 +8550,7 @@ async function loadRouteModule(route, routeModulesCache) {
      return routeModulesCache[route.id];
    }
    try {
@@ -13,11 +13,11 @@ index 2fc5597..be24ac5 100644
 -    );
 -    routeModulesCache[route.id] = routeModule;
 -    return routeModule;
-+      throw new Error("Route modules are not supported by older devices.");
++    throw new Error("Route modules are not supported by older devices.");
    } catch (error) {
      console.error(
        `Error loading route module \`${route.module}\`, reloading page...`
-@@ -6984,11 +6978,7 @@ function createClientRoutes(manifest, routeModulesCache, initialState, ssr, isSp
+@@ -8923,11 +8917,7 @@ function createClientRoutes(manifest, routeModulesCache, initialState, ssr, isSp
        return fetchServerHandler(singleFetch);
      }
      function prefetchModule(modulePath) {
@@ -26,11 +26,11 @@ index 2fc5597..be24ac5 100644
 -        /* webpackIgnore: true */
 -        modulePath
 -      );
-+        throw new Error("Route modules are not supported by older devices.");
++      throw new Error("Route modules are not supported by older devices.");
      }
      function prefetchRouteModuleChunks(route2) {
        if (route2.clientActionModule) {
-@@ -7127,11 +7117,7 @@ function createClientRoutes(manifest, routeModulesCache, initialState, ssr, isSp
+@@ -9070,11 +9060,7 @@ function createClientRoutes(manifest, routeModulesCache, initialState, ssr, isSp
        }
        dataRoute.lazy = {
          loader: route.hasClientLoader ? async () => {
@@ -39,11 +39,11 @@ index 2fc5597..be24ac5 100644
 -            /* webpackIgnore: true */
 -            route.clientLoaderModule
 -          ) : await getLazyRoute();
-+            throw new Error("Route modules are not supported by older devices.");
++          throw new Error("Route modules are not supported by older devices.");
            invariant2(clientLoader, "No `clientLoader` export found");
            return (args, singleFetch) => clientLoader({
              ...args,
-@@ -7142,11 +7128,7 @@ function createClientRoutes(manifest, routeModulesCache, initialState, ssr, isSp
+@@ -9085,11 +9071,7 @@ function createClientRoutes(manifest, routeModulesCache, initialState, ssr, isSp
            });
          } : void 0,
          action: route.hasClientAction ? async () => {
@@ -52,20 +52,20 @@ index 2fc5597..be24ac5 100644
 -            /* webpackIgnore: true */
 -            route.clientActionModule
 -          ) : getLazyRoute();
-+            throw new Error("Route modules are not supported by older devices.");
++          throw new Error("Route modules are not supported by older devices.");
            prefetchRouteModuleChunks(route);
            let { clientAction } = await clientActionPromise;
            invariant2(clientAction, "No `clientAction` export found");
-@@ -7159,11 +7141,7 @@ function createClientRoutes(manifest, routeModulesCache, initialState, ssr, isSp
+@@ -9102,11 +9084,7 @@ function createClientRoutes(manifest, routeModulesCache, initialState, ssr, isSp
            });
          } : void 0,
-         unstable_middleware: route.hasClientMiddleware ? async () => {
--          let { unstable_clientMiddleware } = route.clientMiddlewareModule ? await import(
+         middleware: route.hasClientMiddleware ? async () => {
+-          let { clientMiddleware } = route.clientMiddlewareModule ? await import(
 -            /* @vite-ignore */
 -            /* webpackIgnore: true */
 -            route.clientMiddlewareModule
 -          ) : await getLazyRoute();
-+            throw new Error("Route modules are not supported by older devices.");
-           invariant2(
-             unstable_clientMiddleware,
-             "No `unstable_clientMiddleware` export found"
++          throw new Error("Route modules are not supported by older devices.");
+           invariant2(clientMiddleware, "No `clientMiddleware` export found");
+           return clientMiddleware;
+         } : void 0,
