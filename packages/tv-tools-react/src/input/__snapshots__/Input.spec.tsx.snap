@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`Input should render the Input with Interactable 1`] = `"<div><div class="class-1" style="border-color: black;" id="input-1" tabindex="0"><div class="text"></div><div class="caret" style="transform: translateX(0px);"></div><input readonly="" id="input-1-input" type="text" value="test"></div></div>"`;
 
