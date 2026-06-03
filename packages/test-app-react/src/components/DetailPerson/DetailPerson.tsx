@@ -1,10 +1,10 @@
 import type { PersonAsset } from '@salik1992/test-app-data/types';
 import { useDataProvider } from '../../data';
 import { AssetsRow } from '../AssetsRow';
-import { detailConfig, detailScrollPx } from '../Detail/Detail.config';
+import { detailConfig } from '../Detail/Detail.config';
 import { DetailLabel } from '../DetailLabel';
 import { DetailPoster } from '../DetailPoster';
-import { detailPosterImageWidthPx } from '../DetailPoster/DetailPoster.config';
+import { detailPosterConfig } from '../DetailPoster/DetailPoster.config';
 import { Overview } from '../Overview';
 import { H1, P } from '../Typography';
 import * as css from './DetailPerson.module.scss';
@@ -22,7 +22,7 @@ export const DetailPerson = ({
 		<>
 			<DetailPoster
 				$src={dataProvider.getImageUrl(asset, ['profile'], {
-					width: detailPosterImageWidthPx,
+					width: detailPosterConfig.imageWidthPx,
 				})}
 			/>
 			<H1>
@@ -55,9 +55,7 @@ export const DetailPerson = ({
 			<Overview
 				key={`overview-${asset.type}-${asset.id}`}
 				overview={asset.description}
-				onFocus={scroll(
-					detailScrollPx(detailConfig.scrollLandmarkRows.overview),
-				)}
+				onFocus={scroll(detailConfig.scrollLandmarksPx.overview)}
 				focusOnMount
 			/>
 			<AssetsRow
@@ -70,9 +68,7 @@ export const DetailPerson = ({
 					pageItemType: 'movie',
 				}}
 				showDetail={false}
-				onFocus={scroll(
-					detailScrollPx(detailConfig.scrollLandmarkRows.castAndCrew),
-				)}
+				onFocus={scroll(detailConfig.scrollLandmarksPx.castAndCrew)}
 				paginate
 			/>
 			<AssetsRow
@@ -85,9 +81,7 @@ export const DetailPerson = ({
 					pageItemType: 'series',
 				}}
 				showDetail={false}
-				onFocus={scroll(
-					detailScrollPx(detailConfig.scrollLandmarkRows.related),
-				)}
+				onFocus={scroll(detailConfig.scrollLandmarksPx.related)}
 				paginate
 			/>
 		</>

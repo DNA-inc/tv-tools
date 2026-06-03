@@ -4,10 +4,8 @@ import { type ScssDynamicTokenBinding, tokens } from '../Theme/tokens';
 export const detailPosterConfig = {
 	widthColumns: 13,
 	heightRows: 9,
+	imageWidthPx: 13 * tokens.typography.column.px,
 } as const;
-
-export const detailPosterImageWidthPx =
-	detailPosterConfig.widthColumns * tokens.typography.column.px;
 
 export const detailPosterScssBinding: ScssDynamicTokenBinding = {
 	moduleBaseName: 'config',
