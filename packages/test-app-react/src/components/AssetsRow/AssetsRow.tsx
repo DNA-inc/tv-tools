@@ -7,6 +7,7 @@ import { type ListDataConfiguration } from '../../data';
 import { usePagedData } from '../../hooks/usePagedData';
 import { AssetsRowDetail } from '../AssetsRowDetail';
 import { Performance } from '../Theme';
+import { assetsRowListConfiguration } from '../Theme/listConfigurations';
 import { Tile } from '../Tile';
 import { H2, P } from '../Typography';
 import * as css from './AssetsRow.module.scss';
@@ -50,13 +51,11 @@ export const AssetsRow = ({
 	const listConfiguration = useMemo(
 		() => ({
 			performance: Performance,
-			visibleElements: 9,
+			visibleElements: assetsRowListConfiguration.visibleElements,
 			config: {
-				navigatableElements: 7,
-				scrolling: {
-					first: Tile.width / 1.3,
-					other: Tile.width,
-				},
+				navigatableElements:
+					assetsRowListConfiguration.navigatableElements,
+				scrolling: assetsRowListConfiguration.scrolling,
 			},
 		}),
 		[],

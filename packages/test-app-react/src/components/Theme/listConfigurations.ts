@@ -1,5 +1,8 @@
 import { type ScssDynamicTokenBinding, tokens } from './tokens';
 
+/** Scroll distance multiplier for the first step in list/grid carousels. */
+export const LIST_SCROLL_FIRST_DIVISOR = 1.3;
+
 /**
  * Compute the navigatable / visible counts for a 1-D virtualized list
  * from the screen dimension and the rendered item dimensions.
@@ -35,20 +38,45 @@ const assetsRowNavigation = computeListNavigation({
 	margin: tokens.tile.margin.px,
 });
 
-const heroRowListScss = {
+const discoverGridVerticalStep = tokens.tile.height.px + tokens.tile.margin.px;
+
+const discoverGridNavigation = computeListNavigation({
+	screen: tokens.screen.height.px,
+	step: discoverGridVerticalStep,
+	margin: tokens.tile.margin.px,
+});
+
+export const heroRowListConfiguration = {
 	visibleElements: heroRowNavigation.visible,
-	step: tokens.hero.step.px,
+	navigatableElements: heroRowNavigation.navigatable,
+	scrolling: {
+		first: tokens.hero.step.px / LIST_SCROLL_FIRST_DIVISOR,
+		other: tokens.hero.step.px,
+	},
 } as const;
 
-const assetsRowListScss = {
+export const assetsRowListConfiguration = {
 	visibleElements: assetsRowNavigation.visible,
-	step: tokens.tile.step.px,
+	navigatableElements: assetsRowNavigation.navigatable,
+	scrolling: {
+		first: tokens.tile.step.px / LIST_SCROLL_FIRST_DIVISOR,
+		other: tokens.tile.step.px,
+	},
+} as const;
+
+export const discoverGridConfiguration = {
+	columns: 6,
+	visibleGroups: discoverGridNavigation.visible,
+	navigatableGroups: discoverGridNavigation.navigatable,
+	scrolling: {
+		first: tokens.tile.height.px / LIST_SCROLL_FIRST_DIVISOR,
+		other: tokens.tile.height.px,
+	},
 } as const;
 
 /**
- * SCSS bindings derived from computed list dimensions. Row stylesheets
- * `@use './list' as heroList;` and read `heroList.$visible-elements` /
- * `heroList.$step`, which the Sass importer fills in via `getValues`.
+ * SCSS bindings derived from the list configurations above. Row
+ * stylesheets `@use './list'` and read `$visible-elements` / `$step`.
  */
 export const scssDynamicTokenBindings: ReadonlyArray<ScssDynamicTokenBinding> =
 	[
@@ -57,9 +85,9 @@ export const scssDynamicTokenBindings: ReadonlyArray<ScssDynamicTokenBinding> =
 			folder: 'HeroRow',
 			getValues: () => ({
 				visibleElements: {
-					unitless: heroRowListScss.visibleElements,
+					unitless: heroRowListConfiguration.visibleElements,
 				},
-				step: { px: heroRowListScss.step },
+				step: { px: heroRowListConfiguration.scrolling.other },
 			}),
 		},
 		{
@@ -67,12 +95,9 @@ export const scssDynamicTokenBindings: ReadonlyArray<ScssDynamicTokenBinding> =
 			folder: 'AssetsRow',
 			getValues: () => ({
 				visibleElements: {
-					unitless: assetsRowListScss.visibleElements,
+					unitless: assetsRowListConfiguration.visibleElements,
 				},
-				step: { px: assetsRowListScss.step },
+				step: { px: assetsRowListConfiguration.scrolling.other },
 			}),
 		},
 	];
-
-export const heroRowListScssTokens = heroRowListScss;
-export const assetsRowListScssTokens = assetsRowListScss;

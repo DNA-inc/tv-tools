@@ -1,22 +1,43 @@
 import {
-	assetsRowListScssTokens,
+	assetsRowListConfiguration,
 	computeListNavigation,
-	heroRowListScssTokens,
+	discoverGridConfiguration,
+	heroRowListConfiguration,
 	scssDynamicTokenBindings,
 } from './listConfigurations';
 
 describe('listConfigurations (default 1920x1080 screen)', () => {
-	it('hero row dynamic SCSS tokens use 5 visible slots and 1065px step', () => {
-		expect(heroRowListScssTokens).toEqual({
+	it('hero row list config matches computed navigation counts', () => {
+		expect(heroRowListConfiguration).toEqual({
 			visibleElements: 5,
-			step: 1065,
+			navigatableElements: 2,
+			scrolling: {
+				first: 1065 / 1.3,
+				other: 1065,
+			},
 		});
 	});
 
-	it('assets row dynamic SCSS tokens use 9 visible slots and 270px step', () => {
-		expect(assetsRowListScssTokens).toEqual({
+	it('assets row list config matches computed navigation counts', () => {
+		expect(assetsRowListConfiguration).toEqual({
 			visibleElements: 9,
-			step: 270,
+			navigatableElements: 7,
+			scrolling: {
+				first: 270 / 1.3,
+				other: 270,
+			},
+		});
+	});
+
+	it('discover grid config matches computed navigation counts', () => {
+		expect(discoverGridConfiguration).toEqual({
+			columns: 6,
+			visibleGroups: 7,
+			navigatableGroups: 5,
+			scrolling: {
+				first: 180 / 1.3,
+				other: 180,
+			},
 		});
 	});
 

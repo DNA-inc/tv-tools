@@ -10,13 +10,13 @@ import { usePagedData } from '../../hooks/usePagedData';
 import { Screen } from '../Screen';
 import { ScreenCentered } from '../ScreenCentered';
 import { Performance } from '../Theme';
+import { discoverGridConfiguration } from '../Theme/listConfigurations';
 import { Tile } from '../Tile';
 import { H1 } from '../Typography';
 import * as css from './Discover.module.scss';
 
-const COLUMNS = 6;
-const PAGINATION_OFFSET = 2 * COLUMNS;
-const INITIAL_VISIBLE_DATA = 6 * COLUMNS;
+const PAGINATION_OFFSET = 2 * discoverGridConfiguration.columns;
+const INITIAL_VISIBLE_DATA = 6 * discoverGridConfiguration.columns;
 
 const validateFilter = (value: unknown): ListDataConfiguration => {
 	try {
@@ -49,14 +49,11 @@ export const DiscoverInner = (filter: ListDataConfiguration) => {
 	const gridConfiguration = useMemo(
 		() => ({
 			performance: Performance,
-			visibleGroups: 7,
-			elementsPerGroup: COLUMNS,
+			visibleGroups: discoverGridConfiguration.visibleGroups,
+			elementsPerGroup: discoverGridConfiguration.columns,
 			config: {
-				navigatableGroups: 5,
-				scrolling: {
-					first: Tile.height / 1.3,
-					other: Tile.height,
-				},
+				navigatableGroups: discoverGridConfiguration.navigatableGroups,
+				scrolling: discoverGridConfiguration.scrolling,
 			},
 		}),
 		[],
