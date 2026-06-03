@@ -1,6 +1,7 @@
+@use './list' as heroList;
 @use '../Hero/variables' as hero;
 @use '../MouseArrows/MouseArrows.scss' as m;
-@use '../Theme/transition' as t;
+@use '../Theme/transition' as tr;
 @use '../Typography/sizes' as sizes;
 
 .wrap {
@@ -8,10 +9,14 @@
 
 	:global(.list) {
 		position: relative;
-		white-space: nowrap;
 		padding: 50px 0;
 		box-sizing: border-box;
 		@include m.mouse-arrows('horizontal');
+
+		// Hide built-in CssList arrows; HeroRowNav supplies zones via useListNav.
+		:global(.list-inner-wrap) ~ :global(.mouse-arrow) {
+			display: none;
+		}
 
 		:global(.mouse-arrow) {
 			height: 22 * sizes.$row;
@@ -35,8 +40,36 @@
 		}
 	}
 
+	// Tiles are placed via `data-row-index` CSS rules. The wrapper is a
+	// positioned containing block with an explicit height (tile children
+	// are absolutely positioned). `data-list-position` mirrors the data
+	// anchor; strip motion is preview-only (±1 step), rest is transform 0.
 	:global(.list-inner-wrap) {
-		@include t.transition(transform);
+		position: relative;
+		height: hero.$height;
+
+		@for $i from 0 through (3 * heroList.$visible-elements - 1) {
+			> [data-row-index='#{$i}'] {
+				transform: translateX(
+					#{($i - heroList.$visible-elements) * heroList.$step}
+				);
+			}
+		}
+
+		&:not(:global(.next-offset)):not(:global(.prev-offset)) {
+			transform: translateX(0);
+			transition: none;
+		}
+
+		&:global(.next-offset) {
+			@include tr.transition(transform);
+			transform: translateX(-#{heroList.$step});
+		}
+
+		&:global(.prev-offset) {
+			@include tr.transition(transform);
+			transform: translateX(#{heroList.$step});
+		}
 	}
 }
 

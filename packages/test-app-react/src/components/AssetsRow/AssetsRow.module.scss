@@ -1,5 +1,6 @@
+@use './list' as assetsList;
 @use '../MouseArrows/MouseArrows.scss' as m;
-@use '../Theme/transition' as t;
+@use '../Theme/transition' as tr;
 @use '../Tile/variables' as tile;
 @use '../Typography/sizes' as sizes;
 
@@ -39,7 +40,35 @@
 	}
 
 	:global(.list-inner-wrap) {
-		@include t.transition(transform);
+		position: relative;
+		height: tile.$height;
+
+		@for $i from 0 through (3 * assetsList.$visible-elements - 1) {
+			> [data-row-index='#{$i}'] {
+				position: absolute;
+				top: 0;
+				left: 0;
+				margin-right: 0;
+				transform: translateX(
+					#{($i - assetsList.$visible-elements) * assetsList.$step}
+				);
+			}
+		}
+
+		&:not(:global(.next-offset)):not(:global(.prev-offset)) {
+			transform: translateX(0);
+			transition: none;
+		}
+
+		&:global(.next-offset) {
+			@include tr.transition(transform);
+			transform: translateX(-#{assetsList.$step});
+		}
+
+		&:global(.prev-offset) {
+			@include tr.transition(transform);
+			transform: translateX(#{assetsList.$step});
+		}
 	}
 }
 
