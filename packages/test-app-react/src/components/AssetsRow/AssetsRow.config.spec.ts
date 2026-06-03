@@ -1,4 +1,4 @@
-import { assetsRowConfig, assetsRowScssBinding } from './AssetsRow.config';
+import { assetsRowConfig } from './AssetsRow.config';
 
 describe('AssetsRow.config (default 1920x1080 screen)', () => {
 	it('list config matches expected navigation counts', () => {
@@ -9,13 +9,6 @@ describe('AssetsRow.config (default 1920x1080 screen)', () => {
 				first: 270 / 1.3,
 				other: 270,
 			},
-		});
-	});
-
-	it('scss binding exposes the same values via getValues', () => {
-		expect(assetsRowScssBinding.getValues()).toEqual({
-			visibleElements: { unitless: 9 },
-			step: { px: 270 },
 		});
 	});
 });

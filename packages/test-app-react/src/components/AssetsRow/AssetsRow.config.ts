@@ -2,9 +2,9 @@ import {
 	LIST_SCROLL_FIRST_DIVISOR,
 	computeListNavigation,
 } from '../Theme/computeListNavigation';
-import { type ScssDynamicTokenBinding, tokens } from '../Theme/tokens';
+import { tokens } from '../Theme/tokens';
 
-/** @config — AssetsRow list layout and pagination; consumed by AssetsRow.tsx and SCSS. */
+/** @config — AssetsRow list layout and pagination; consumed by AssetsRow.tsx. */
 const navigation = computeListNavigation({
 	screen: tokens.screen.width.px,
 	step: tokens.tile.step.px,
@@ -22,12 +22,3 @@ export const assetsRowConfig = {
 		},
 	},
 } as const;
-
-export const assetsRowScssBinding: ScssDynamicTokenBinding = {
-	moduleBaseName: 'list',
-	folder: 'AssetsRow',
-	getValues: () => ({
-		visibleElements: { unitless: assetsRowConfig.list.visibleElements },
-		step: { px: assetsRowConfig.list.scrolling.other },
-	}),
-};
