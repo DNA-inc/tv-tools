@@ -7,8 +7,8 @@ import { type ListDataConfiguration } from '../../data';
 import { usePagedData } from '../../hooks/usePagedData';
 import { Hero } from '../Hero';
 import { Performance } from '../Theme';
-import { heroRowConfig } from './HeroRow.config';
 import { H3 } from '../Typography';
+import { heroRowConfig } from './HeroRow.config';
 import * as css from './HeroRow.module.scss';
 
 export const HeroRow = ({

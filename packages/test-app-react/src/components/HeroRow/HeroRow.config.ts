@@ -1,6 +1,6 @@
 import {
-	computeListNavigation,
 	LIST_SCROLL_FIRST_DIVISOR,
+	computeListNavigation,
 } from '../Theme/computeListNavigation';
 import { type ScssDynamicTokenBinding, tokens } from '../Theme/tokens';
 

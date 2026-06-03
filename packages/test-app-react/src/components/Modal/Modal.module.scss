@@ -1,3 +1,4 @@
+@use './config' as modalConfig;
 @use '../Theme/border' as b;
 @use '../Theme/colors' as colors;
 @use '../Typography/sizes' as sizes;
@@ -14,24 +15,25 @@
 
 .inner-wrap {
 	position: absolute;
-	padding: 3 * sizes.$column 6 * sizes.$column;
+	padding: modalConfig.$padding-vertical-columns * sizes.$column
+		modalConfig.$padding-horizontal-columns * sizes.$column;
 	background-color: colors.$bg-primary;
 	@include b.border;
 	border-color: colors.$fg-primary;
 	border-style: solid;
 
 	&.small {
-		top: 12 * sizes.$row;
-		bottom: 12 * sizes.$row;
-		left: 40 * sizes.$column;
-		right: 40 * sizes.$column;
+		top: modalConfig.$small-vertical-rows * sizes.$row;
+		bottom: modalConfig.$small-vertical-rows * sizes.$row;
+		left: modalConfig.$small-horizontal-columns * sizes.$column;
+		right: modalConfig.$small-horizontal-columns * sizes.$column;
 	}
 
 	&.large {
-		top: 5 * sizes.$row;
-		bottom: 5 * sizes.$row;
-		left: 20 * sizes.$column;
-		right: 20 * sizes.$column;
+		top: modalConfig.$large-vertical-rows * sizes.$row;
+		bottom: modalConfig.$large-vertical-rows * sizes.$row;
+		left: modalConfig.$large-horizontal-columns * sizes.$column;
+		right: modalConfig.$large-horizontal-columns * sizes.$column;
 	}
 }
 
@@ -44,6 +46,6 @@
 }
 
 .content {
-	height: 23 * sizes.$row;
+	height: modalConfig.$content-height-rows * sizes.$row;
 	overflow: hidden;
 }

@@ -1,11 +1,11 @@
 import type { SeriesAsset } from '@salik1992/test-app-data/types';
 import { useDataProvider } from '../../data';
 import { AssetsRow } from '../AssetsRow';
+import { detailConfig, detailScrollPx } from '../Detail/Detail.config';
 import { DetailPoster } from '../DetailPoster';
+import { detailPosterImageWidthPx } from '../DetailPoster/DetailPoster.config';
 import { DetailRating } from '../DetailRating';
 import { Overview } from '../Overview';
-import { detailConfig, detailScrollPx } from '../Detail/Detail.config';
-import { detailPosterImageWidthPx } from '../DetailPoster/DetailPoster.config';
 import { H1, P } from '../Typography';
 import * as css from './DetailSeries.module.scss';
 
@@ -51,9 +51,7 @@ export const DetailSeries = ({
 				}}
 				showDetail={false}
 				onFocus={scroll(
-					detailScrollPx(
-						detailConfig.scrollLandmarkRows.castAndCrew,
-					),
+					detailScrollPx(detailConfig.scrollLandmarkRows.castAndCrew),
 				)}
 				paginate
 			/>

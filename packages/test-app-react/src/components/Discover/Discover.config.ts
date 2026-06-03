@@ -1,6 +1,6 @@
 import {
-	computeListNavigation,
 	LIST_SCROLL_FIRST_DIVISOR,
+	computeListNavigation,
 } from '../Theme/computeListNavigation';
 import { tokens } from '../Theme/tokens';
 
@@ -33,5 +33,4 @@ export const discoverPaginationOffset =
 	discoverConfig.pagination.offsetRows * discoverConfig.grid.columns;
 
 export const discoverInitialVisibleData =
-	discoverConfig.pagination.initialVisibleRows *
-	discoverConfig.grid.columns;
+	discoverConfig.pagination.initialVisibleRows * discoverConfig.grid.columns;

@@ -1,7 +1,7 @@
 import {
 	detailConfig,
-	detailScssBinding,
 	detailScrollPx,
+	detailScssBinding,
 } from './Detail.config';
 
 describe('Detail.config', () => {
@@ -11,9 +11,9 @@ describe('Detail.config', () => {
 	});
 
 	it('detailScrollPx converts row counts using typography tokens', () => {
-		expect(detailScrollPx(detailConfig.scrollLandmarkRows.castAndCrew)).toBe(
-			210,
-		);
+		expect(
+			detailScrollPx(detailConfig.scrollLandmarkRows.castAndCrew),
+		).toBe(210);
 	});
 
 	it('scss binding exposes inner rows via getValues', () => {

@@ -10,8 +10,7 @@ export const detailConfig = {
 	},
 } as const;
 
-export const detailScrollPx = (rows: number) =>
-	rows * tokens.typography.row.px;
+export const detailScrollPx = (rows: number) => rows * tokens.typography.row.px;
 
 export const detailScssBinding: ScssDynamicTokenBinding = {
 	moduleBaseName: 'config',
