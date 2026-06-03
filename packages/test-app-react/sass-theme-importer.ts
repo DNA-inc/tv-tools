@@ -1,7 +1,7 @@
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import type { CanonicalizeContext, Importer } from 'sass';
-import { scssDynamicTokenBindings } from './src/components/Theme/listConfigurations';
+import { scssDynamicTokenBindings } from './src/components/Theme/scssBindings';
 import {
 	type ScssDynamicTokenBinding,
 	type TokenValue,
@@ -83,7 +83,7 @@ const buildVirtualUrl = (folder: string, moduleBaseName: string): URL => {
  * Custom Sass importer: `@use '<Folder>/<moduleBaseName>'` resolves to
  * either a static token group from `scssTokenBindings` (in `tokens.ts`)
  * or a dynamically-computed group from `scssDynamicTokenBindings`
- * (currently in `listConfigurations.ts`). Dynamic bindings let SCSS
+ * (via `Theme/scssBindings.ts`). Dynamic bindings let SCSS
  * consume values that are computed in TypeScript at build time.
  */
 export const themeImporter: Importer<'sync'> = {
