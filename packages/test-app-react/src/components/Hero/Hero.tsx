@@ -9,12 +9,9 @@ import type {
 } from '@salik1992/test-app-data/types';
 import { useDataProvider } from '../../data';
 import { Image } from '../Image';
-import { COLUMN, H1, NBSP, P, ROW } from '../Typography';
+import { tokens } from '../Theme/tokens';
+import { H1, NBSP, P } from '../Typography';
 import * as css from './Hero.module.scss';
-
-const WIDTH = 66 * COLUMN;
-const HEIGHT = 19 * ROW;
-const MARGIN = 5 * COLUMN;
 
 const getAssetDescription = (asset?: Asset) => {
 	if (!asset || !('description' in asset)) {
@@ -66,7 +63,7 @@ export const Hero = ({
 							? dataProvider.getImageUrl(
 									asset,
 									['backdrop', 'still'],
-									{ width: WIDTH },
+									{ width: tokens.hero.width.px },
 								)
 							: ''
 					}
@@ -81,5 +78,5 @@ export const Hero = ({
 		</Interactable>
 	);
 };
-Hero.width = WIDTH + MARGIN;
-Hero.height = HEIGHT;
+Hero.width = tokens.hero.width.px + tokens.hero.margin.px;
+Hero.height = tokens.hero.height.px;

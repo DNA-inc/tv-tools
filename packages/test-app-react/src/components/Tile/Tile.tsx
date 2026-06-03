@@ -9,12 +9,9 @@ import type {
 } from '@salik1992/test-app-data/types';
 import { useDataProvider } from '../../data';
 import { Image } from '../Image';
-import { COLUMN, P, ROW } from '../Typography';
+import { tokens } from '../Theme/tokens';
+import { P } from '../Typography';
 import * as css from './Tile.module.scss';
-
-const WIDTH = 16 * COLUMN;
-const HEIGHT = 6 * ROW;
-const MARGIN = 2 * COLUMN;
 
 const PersonTile = ({ asset }: { asset?: PersonAsset }) => {
 	const dataProvider = useDataProvider();
@@ -26,7 +23,7 @@ const PersonTile = ({ asset }: { asset?: PersonAsset }) => {
 				src={
 					asset
 						? dataProvider.getImageUrl(asset, ['profile'], {
-								width: WIDTH,
+								width: tokens.tile.width.px,
 							})
 						: ''
 				}
@@ -52,7 +49,7 @@ const TileWithImage = ({ asset }: { asset?: Asset }) => {
 						? dataProvider.getImageUrl(
 								asset,
 								['backdrop', 'still', 'poster', 'profile'],
-								{ width: WIDTH },
+								{ width: tokens.tile.width.px },
 							)
 						: ''
 				}
@@ -140,5 +137,5 @@ export const Tile = ({
 		</Interactable>
 	);
 };
-Tile.width = WIDTH + MARGIN;
-Tile.height = HEIGHT;
+Tile.width = tokens.tile.width.px + tokens.tile.margin.px;
+Tile.height = tokens.tile.height.px;

@@ -10,12 +10,16 @@ import {
 const COMPONENTS_DIR = path.resolve(__dirname, 'src/components');
 const VIRTUAL_QUERY = 'tv-tools-theme-tokens';
 
+const moduleBaseNameOf = (resolvedPath: string): string => {
+	const rawBase = path.basename(resolvedPath, path.extname(resolvedPath));
+	return rawBase.startsWith('_') ? rawBase.slice(1) : rawBase;
+};
+
 const bindingFromResolvedPath = (
 	resolvedPath: string,
 ): (typeof scssTokenBindings)[number] | null => {
 	const dir = path.dirname(resolvedPath);
-	const rawBase = path.basename(resolvedPath, path.extname(resolvedPath));
-	const moduleBaseName = rawBase.startsWith('_') ? rawBase.slice(1) : rawBase;
+	const moduleBaseName = moduleBaseNameOf(resolvedPath);
 	return (
 		scssTokenBindings.find(
 			(b) =>
@@ -42,21 +46,21 @@ const renderValue = (tokenValue: TokenValue): string => {
 	return `${n}${cssUnit}`;
 };
 
+/** Maps TS token keys (camelCase) to SCSS variable names (kebab-case). */
+const tokenKeyToScssName = (key: string) =>
+	key.replace(/[A-Z]/g, (c) => `-${c.toLowerCase()}`);
+
 const renderModule = (entries: Record<string, TokenValue>) =>
 	Object.entries(entries)
 		.map(
 			([cssProperty, cssPropertyValue]) =>
-				`$${cssProperty}: ${renderValue(cssPropertyValue)};`,
+				`$${tokenKeyToScssName(cssProperty)}: ${renderValue(cssPropertyValue)};`,
 		)
 		.join('\n') + '\n';
 
-const buildVirtualUrl = (binding: (typeof scssTokenBindings)[number]): URL => {
+const buildVirtualUrl = (folder: string, moduleBaseName: string): URL => {
 	const url = pathToFileURL(
-		path.join(
-			COMPONENTS_DIR,
-			binding.folder,
-			`_${binding.moduleBaseName}.scss`,
-		),
+		path.join(COMPONENTS_DIR, folder, `_${moduleBaseName}.scss`),
 	);
 	url.search = VIRTUAL_QUERY;
 	return url;
@@ -64,7 +68,7 @@ const buildVirtualUrl = (binding: (typeof scssTokenBindings)[number]): URL => {
 
 /**
  * Custom Sass importer: `@use '<Folder>/<moduleBaseName>'` resolves to
- * `tokens[binding.tokensKey]` — see `scssTokenBindings` in `tokens.ts`.
+ * the matching token group from `scssTokenBindings` in `tokens.ts`.
  */
 export const themeImporter: Importer<'sync'> = {
 	canonicalize(url: string, context: CanonicalizeContext) {
@@ -76,7 +80,8 @@ export const themeImporter: Importer<'sync'> = {
 			url,
 		);
 		const binding = bindingFromResolvedPath(resolved);
-		return binding ? buildVirtualUrl(binding) : null;
+		if (!binding) return null;
+		return buildVirtualUrl(binding.folder, binding.moduleBaseName);
 	},
 	load(canonicalUrl) {
 		if (canonicalUrl.search !== `?${VIRTUAL_QUERY}`) return null;
