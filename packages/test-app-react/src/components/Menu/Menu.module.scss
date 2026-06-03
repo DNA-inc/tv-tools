@@ -1,11 +1,13 @@
 @use '../Theme/border' as b;
 @use '../Theme/colors' as colors;
+@use '../Theme/screen';
 @use '../Theme/transition' as t;
 @use '../Typography/sizes' as sizes;
+@use './widths' as menuWidths;
 
-$width-closed: 4 * sizes.$column;
-$width-open: 20 * sizes.$column;
-$width-shade: 1920 - $width-open;
+$width-closed: menuWidths.$closed-columns * sizes.$column;
+$width-open: menuWidths.$open-columns * sizes.$column;
+$width-shade: screen.$width - $width-open;
 
 .glyph {
 	color: colors.$fg-secondary;

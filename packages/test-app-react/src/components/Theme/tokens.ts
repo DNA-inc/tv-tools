@@ -40,6 +40,13 @@ export const tokens = {
 		imageHeight: { px: 120 },
 		personImageHeight: { px: 150 },
 	},
+	menu: {
+		closedColumns: { unitless: 4 },
+		openColumns: { unitless: 20 },
+	},
+	theme: {
+		transitionMs: { ms: 300 },
+	},
 } as const satisfies ThemeTokens;
 
 /**
@@ -57,6 +64,8 @@ export const scssTokenBindings = [
 	},
 	{ moduleBaseName: 'variables', folder: 'Hero', tokensKey: 'hero' },
 	{ moduleBaseName: 'variables', folder: 'Tile', tokensKey: 'tile' },
+	{ moduleBaseName: 'variables', folder: 'Theme', tokensKey: 'theme' },
+	{ moduleBaseName: 'widths', folder: 'Menu', tokensKey: 'menu' },
 ] as const satisfies ReadonlyArray<{
 	moduleBaseName: string;
 	folder: string;

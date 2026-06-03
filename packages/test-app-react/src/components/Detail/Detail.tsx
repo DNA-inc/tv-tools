@@ -20,6 +20,7 @@ import { DetailPerson } from '../DetailPerson';
 import { DetailSeries } from '../DetailSeries';
 import { Screen } from '../Screen';
 import { ScreenCentered } from '../ScreenCentered';
+import { tokens } from '../Theme/tokens';
 import { H2, P } from '../Typography';
 import * as css from './Detail.module.scss';
 
@@ -73,7 +74,7 @@ export const Detail = () => {
 								asset,
 								['backdrop', 'still', 'poster', 'profile'],
 								{
-									width: 1920,
+									width: tokens.screen.width.px,
 								},
 							)})`,
 						}}
