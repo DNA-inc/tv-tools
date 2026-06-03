@@ -1,11 +1,12 @@
+@use './config' as posterConfig;
 @use '../Typography/sizes' as sizes;
 
 .poster {
 	position: absolute;
 	top: sizes.$row;
 	right: sizes.$row;
-	width: 13 * sizes.$column;
-	height: 9 * sizes.$row;
+	width: posterConfig.$width-columns * sizes.$column;
+	height: posterConfig.$height-rows * sizes.$row;
 	background-size: cover;
 	background-position: center center;
 }

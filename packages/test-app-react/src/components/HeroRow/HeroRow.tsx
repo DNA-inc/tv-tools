@@ -7,7 +7,7 @@ import { type ListDataConfiguration } from '../../data';
 import { usePagedData } from '../../hooks/usePagedData';
 import { Hero } from '../Hero';
 import { Performance } from '../Theme';
-import { heroRowListConfiguration } from '../Theme/listConfigurations';
+import { heroRowConfig } from './HeroRow.config';
 import { H3 } from '../Typography';
 import * as css from './HeroRow.module.scss';
 
@@ -31,11 +31,10 @@ export const HeroRow = ({
 	const listConfiguration = useMemo(
 		() => ({
 			performance: Performance,
-			visibleElements: heroRowListConfiguration.visibleElements,
+			visibleElements: heroRowConfig.list.visibleElements,
 			config: {
-				navigatableElements:
-					heroRowListConfiguration.navigatableElements,
-				scrolling: heroRowListConfiguration.scrolling,
+				navigatableElements: heroRowConfig.list.navigatableElements,
+				scrolling: heroRowConfig.list.scrolling,
 			},
 		}),
 		[],

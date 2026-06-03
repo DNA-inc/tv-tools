@@ -7,12 +7,10 @@ import { type ListDataConfiguration } from '../../data';
 import { usePagedData } from '../../hooks/usePagedData';
 import { AssetsRowDetail } from '../AssetsRowDetail';
 import { Performance } from '../Theme';
-import { assetsRowListConfiguration } from '../Theme/listConfigurations';
 import { Tile } from '../Tile';
 import { H2, P } from '../Typography';
+import { assetsRowConfig } from './AssetsRow.config';
 import * as css from './AssetsRow.module.scss';
-
-const PAGINATION_OFFSET = 3;
 
 export const AssetsRow = ({
 	id,
@@ -41,7 +39,10 @@ export const AssetsRow = ({
 	const onDataIndex = useCallback(
 		(index: number) => {
 			setFocusedIndex(index);
-			if (paginate && index + PAGINATION_OFFSET >= data.length) {
+			if (
+				paginate &&
+				index + assetsRowConfig.paginationOffset >= data.length
+			) {
 				fetchNextPage();
 			}
 		},
@@ -51,11 +52,10 @@ export const AssetsRow = ({
 	const listConfiguration = useMemo(
 		() => ({
 			performance: Performance,
-			visibleElements: assetsRowListConfiguration.visibleElements,
+			visibleElements: assetsRowConfig.list.visibleElements,
 			config: {
-				navigatableElements:
-					assetsRowListConfiguration.navigatableElements,
-				scrolling: assetsRowListConfiguration.scrolling,
+				navigatableElements: assetsRowConfig.list.navigatableElements,
+				scrolling: assetsRowConfig.list.scrolling,
 			},
 		}),
 		[],

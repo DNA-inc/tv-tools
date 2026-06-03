@@ -4,7 +4,9 @@ import { AssetsRow } from '../AssetsRow';
 import { DetailLabel } from '../DetailLabel';
 import { DetailPoster } from '../DetailPoster';
 import { Overview } from '../Overview';
-import { H1, P, ROW } from '../Typography';
+import { detailConfig, detailScrollPx } from '../Detail/Detail.config';
+import { detailPosterImageWidthPx } from '../DetailPoster/DetailPoster.config';
+import { H1, P } from '../Typography';
 import * as css from './DetailPerson.module.scss';
 
 export const DetailPerson = ({
@@ -20,7 +22,7 @@ export const DetailPerson = ({
 		<>
 			<DetailPoster
 				$src={dataProvider.getImageUrl(asset, ['profile'], {
-					width: 200,
+					width: detailPosterImageWidthPx,
 				})}
 			/>
 			<H1>
@@ -53,7 +55,9 @@ export const DetailPerson = ({
 			<Overview
 				key={`overview-${asset.type}-${asset.id}`}
 				overview={asset.description}
-				onFocus={scroll(0)}
+				onFocus={scroll(
+					detailScrollPx(detailConfig.scrollLandmarkRows.overview),
+				)}
 				focusOnMount
 			/>
 			<AssetsRow
@@ -66,7 +70,11 @@ export const DetailPerson = ({
 					pageItemType: 'movie',
 				}}
 				showDetail={false}
-				onFocus={scroll(7 * ROW)}
+				onFocus={scroll(
+					detailScrollPx(
+						detailConfig.scrollLandmarkRows.castAndCrew,
+					),
+				)}
 				paginate
 			/>
 			<AssetsRow
@@ -79,7 +87,9 @@ export const DetailPerson = ({
 					pageItemType: 'series',
 				}}
 				showDetail={false}
-				onFocus={scroll(14 * ROW)}
+				onFocus={scroll(
+					detailScrollPx(detailConfig.scrollLandmarkRows.related),
+				)}
 				paginate
 			/>
 		</>

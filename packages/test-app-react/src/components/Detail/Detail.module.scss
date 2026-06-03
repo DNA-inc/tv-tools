@@ -1,3 +1,4 @@
+@use './config' as detailConfig;
 @use '../Theme/border' as b;
 @use '../Theme/colors' as colors;
 @use '../Theme/screen';
@@ -29,7 +30,7 @@
 	left: sizes.$row;
 	right: sizes.$row;
 	bottom: sizes.$row;
-	height: 21 * sizes.$row;
+	height: detailConfig.$inner-rows * sizes.$row;
 	@include b.border;
 	border-style: solid;
 	border-color: colors.$fg-primary;
