@@ -118,10 +118,12 @@ describe('Input', () => {
 	it('should trigger render data on select', () => {
 		element.value = '0123';
 		element.selectionStart = 2;
+		element.selectionEnd = 4;
 		element.selectionDirection = 'backward';
+		element.dispatchEvent(new Event('select', { bubbles: true }));
 		jest.runAllTimers();
 		expect(rdSpy).toHaveBeenNthCalledWith(
-			2,
+			1,
 			expect.objectContaining({
 				value: '0123',
 				caret: 2,

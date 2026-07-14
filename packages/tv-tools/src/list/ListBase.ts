@@ -5,9 +5,9 @@ import type { ListBehavior, ListSetup, RenderData } from './types';
  * The base for all ListBehavior implementations.
  */
 export abstract class ListBase<
-		T,
-		ListConfiguration extends Record<string, unknown>,
-	>
+	T,
+	ListConfiguration extends Record<string, unknown>,
+>
 	extends DataContainer<
 		T,
 		RenderData<T>,

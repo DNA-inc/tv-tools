@@ -5,9 +5,9 @@ import type { GridBehavior, GridSetup, RenderData } from './types';
  * The base for all GridBehavior implementations.
  */
 export abstract class GridBase<
-		T,
-		GridConfiguration extends Record<string, unknown>,
-	>
+	T,
+	GridConfiguration extends Record<string, unknown>,
+>
 	extends DataContainer<
 		T,
 		RenderData<T>,

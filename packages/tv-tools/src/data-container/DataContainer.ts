@@ -14,8 +14,7 @@ export abstract class DataContainer<
 	RenderData extends RenderDataBase,
 	DataContainerConfiguration extends Record<string, unknown>,
 	Setup extends DataContainerSetup<T, DataContainerConfiguration>,
-> implements DataContainerBehavior<T, RenderData>
-{
+> implements DataContainerBehavior<T, RenderData> {
 	/**
 	 * Handles listeners to events and their management.
 	 */

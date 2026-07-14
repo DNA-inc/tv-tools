@@ -3,6 +3,9 @@
 	"compilerOptions": {
 		"declaration": false,
 		"isolatedModules": true,
+		"lib": ["ES2022", "DOM", "DOM.Iterable"],
+		"rootDir": ".",
+		"types": ["node"]
 	},
 	"include": ["src", "index.d.ts"],
 	"ts-node": {

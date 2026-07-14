@@ -37,8 +37,10 @@ export type ListBehavior<T> = DataContainerBehavior<T, RenderData<T>>;
 /**
  * Configuration of lists that is needed for calculations.
  */
-export interface ListSetup<T, ListConfiguration extends Record<string, unknown>>
-	extends DataContainerSetup<T, ListConfiguration> {
+export interface ListSetup<
+	T,
+	ListConfiguration extends Record<string, unknown>,
+> extends DataContainerSetup<T, ListConfiguration> {
 	/**
 	 * The maximum amount of elements that are being rendered at once.
 	 */

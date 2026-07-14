@@ -52,8 +52,10 @@ export type GridBehavior<T> = DataContainerBehavior<T, RenderData<T>>;
 /**
  * Configuration of grids that is needed for calculations.
  */
-export interface GridSetup<T, GridConfiguration extends Record<string, unknown>>
-	extends DataContainerSetup<T, GridConfiguration> {
+export interface GridSetup<
+	T,
+	GridConfiguration extends Record<string, unknown>,
+> extends DataContainerSetup<T, GridConfiguration> {
 	/**
 	 * The maximum amount of groups that are being rendered at once.
 	 */
