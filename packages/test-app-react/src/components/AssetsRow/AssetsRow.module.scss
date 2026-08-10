@@ -1,5 +1,5 @@
 @use '../MouseArrows/MouseArrows.scss' as m;
-@use '../Theme/transition' as t;
+@use '../Theme/transition' as tr;
 @use '../Tile/variables' as tile;
 @use '../Typography/sizes' as sizes;
 
@@ -39,7 +39,7 @@
 	}
 
 	:global(.list-inner-wrap) {
-		@include t.transition(transform);
+		@include tr.transition(transform);
 	}
 }
 

@@ -1,5 +1,7 @@
+@use './config' as detailConfig;
 @use '../Theme/border' as b;
 @use '../Theme/colors' as colors;
+@use '../Theme/screen';
 @use '../Theme/transition' as t;
 @use '../Typography/sizes' as sizes;
 
@@ -8,7 +10,7 @@
 	top: 0;
 	left: 0;
 	width: 100%;
-	height: 1080px;
+	height: screen.$height;
 	background-size: cover;
 	background-position: center center;
 }
@@ -28,7 +30,7 @@
 	left: sizes.$row;
 	right: sizes.$row;
 	bottom: sizes.$row;
-	height: 21 * sizes.$row;
+	height: detailConfig.$inner-rows * sizes.$row;
 	@include b.border;
 	border-style: solid;
 	border-color: colors.$fg-primary;

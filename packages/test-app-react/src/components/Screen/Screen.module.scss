@@ -1,4 +1,5 @@
 @use '../Menu/Menu.module.scss' as menu;
+@use './config' as screenConfig;
 @use '../Theme/colors' as colors;
 @use '../Theme/screen';
 @use '../Typography/sizes' as sizes;
@@ -9,14 +10,14 @@
 	top: 0;
 	width: screen.$width;
 	height: screen.$height;
-	padding-left: 3 * sizes.$column;
-	padding-right: 3 * sizes.$column;
+	padding-left: screenConfig.$gutter-columns * sizes.$column;
+	padding-right: screenConfig.$gutter-columns * sizes.$column;
 	overflow: hidden;
 	box-sizing: border-box;
 	background-color: colors.$bg-primary;
 	z-index: 0; // Reset for nested routes to keep the content within
 
 	&.with-menu {
-		padding-left: menu.$width-closed + 3 * sizes.$column;
+		padding-left: menu.$width-closed + screenConfig.$gutter-columns * sizes.$column;
 	}
 }

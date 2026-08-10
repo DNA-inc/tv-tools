@@ -12,11 +12,12 @@ import { ScreenCentered } from '../ScreenCentered';
 import { Performance } from '../Theme';
 import { Tile } from '../Tile';
 import { H1 } from '../Typography';
+import {
+	discoverConfig,
+	discoverInitialVisibleData,
+	discoverPaginationOffset,
+} from './Discover.config';
 import * as css from './Discover.module.scss';
-
-const COLUMNS = 6;
-const PAGINATION_OFFSET = 2 * COLUMNS;
-const INITIAL_VISIBLE_DATA = 6 * COLUMNS;
 
 const validateFilter = (value: unknown): ListDataConfiguration => {
 	try {
@@ -33,7 +34,7 @@ export const DiscoverInner = (filter: ListDataConfiguration) => {
 
 	const onDataIndex = useCallback(
 		(index: number) => {
-			if (index + PAGINATION_OFFSET >= data.length) {
+			if (index + discoverPaginationOffset >= data.length) {
 				fetchNextPage();
 			}
 		},
@@ -41,7 +42,7 @@ export const DiscoverInner = (filter: ListDataConfiguration) => {
 	);
 
 	useEffect(() => {
-		if (data.length < INITIAL_VISIBLE_DATA) {
+		if (data.length < discoverInitialVisibleData) {
 			fetchNextPage();
 		}
 	}, [data, fetchNextPage]);
@@ -49,14 +50,11 @@ export const DiscoverInner = (filter: ListDataConfiguration) => {
 	const gridConfiguration = useMemo(
 		() => ({
 			performance: Performance,
-			visibleGroups: 7,
-			elementsPerGroup: COLUMNS,
+			visibleGroups: discoverConfig.grid.visibleGroups,
+			elementsPerGroup: discoverConfig.grid.columns,
 			config: {
-				navigatableGroups: 5,
-				scrolling: {
-					first: Tile.height / 1.3,
-					other: Tile.height,
-				},
+				navigatableGroups: discoverConfig.grid.navigatableGroups,
+				scrolling: discoverConfig.grid.scrolling,
 			},
 		}),
 		[],

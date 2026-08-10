@@ -22,6 +22,31 @@ export const tokens = {
 		column: { px: 15 },
 		font: { px: 25 },
 	},
+	hero: {
+		width: { px: 990 },
+		height: { px: 570 },
+		margin: { px: 75 },
+		step: { px: 1065 },
+		imageWidth: { px: 960 },
+		imageHeight: { px: 450 },
+	},
+	tile: {
+		width: { px: 240 },
+		height: { px: 180 },
+		personHeight: { px: 240 },
+		margin: { px: 30 },
+		step: { px: 270 },
+		imageWidth: { px: 210 },
+		imageHeight: { px: 120 },
+		personImageHeight: { px: 150 },
+	},
+	menu: {
+		closedColumns: { unitless: 4 },
+		openColumns: { unitless: 20 },
+	},
+	theme: {
+		transitionMs: { ms: 300 },
+	},
 } as const satisfies ThemeTokens;
 
 /**
@@ -37,8 +62,27 @@ export const scssTokenBindings = [
 		folder: 'Typography',
 		tokensKey: 'typography',
 	},
+	{ moduleBaseName: 'variables', folder: 'Hero', tokensKey: 'hero' },
+	{ moduleBaseName: 'variables', folder: 'Tile', tokensKey: 'tile' },
+	{ moduleBaseName: 'variables', folder: 'Theme', tokensKey: 'theme' },
+	{ moduleBaseName: 'widths', folder: 'Menu', tokensKey: 'menu' },
 ] as const satisfies ReadonlyArray<{
 	moduleBaseName: string;
 	folder: string;
 	tokensKey: keyof typeof tokens;
 }>;
+
+/**
+ * Binding for an SCSS `@use` target whose contents are derived from
+ * runtime values (e.g. list/grid configurations that depend on screen
+ * size and are computed in TypeScript). Complements `scssTokenBindings`
+ * for cases where the values are not statically known under `tokens`.
+ *
+ * `getValues` is invoked by the Sass importer when the matching module
+ * is resolved.
+ */
+export interface ScssDynamicTokenBinding {
+	moduleBaseName: string;
+	folder: string;
+	getValues: () => Record<string, TokenValue>;
+}

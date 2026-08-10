@@ -4,13 +4,17 @@ import { Interactable, VerticalFocus } from '@salik1992/tv-tools-react/focus';
 import { useMenuItems } from '../../hooks/useMenuItems';
 import { getCurrentPath } from '../../utils/getCurrentPath';
 import { menuItemToPath } from '../../utils/menuItemToPath';
-import { COLUMN, H1 } from '../Typography';
+import { tokens } from '../Theme/tokens';
+import { H1 } from '../Typography';
 import * as css from './Menu.module.scss';
 
+const openWidth =
+	tokens.menu.openColumns.unitless * tokens.typography.column.px;
+
 const WIDTH = {
-	closed: 4 * COLUMN,
-	open: 20 * COLUMN,
-	shade: 1920 - 20 * COLUMN,
+	closed: tokens.menu.closedColumns.unitless * tokens.typography.column.px,
+	open: openWidth,
+	shade: tokens.screen.width.px - openWidth,
 } as const;
 
 export const Menu = ({

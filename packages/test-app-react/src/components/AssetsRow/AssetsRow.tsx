@@ -9,9 +9,8 @@ import { AssetsRowDetail } from '../AssetsRowDetail';
 import { Performance } from '../Theme';
 import { Tile } from '../Tile';
 import { H2, P } from '../Typography';
+import { assetsRowConfig } from './AssetsRow.config';
 import * as css from './AssetsRow.module.scss';
-
-const PAGINATION_OFFSET = 3;
 
 export const AssetsRow = ({
 	id,
@@ -40,7 +39,10 @@ export const AssetsRow = ({
 	const onDataIndex = useCallback(
 		(index: number) => {
 			setFocusedIndex(index);
-			if (paginate && index + PAGINATION_OFFSET >= data.length) {
+			if (
+				paginate &&
+				index + assetsRowConfig.paginationOffset >= data.length
+			) {
 				fetchNextPage();
 			}
 		},
@@ -50,13 +52,10 @@ export const AssetsRow = ({
 	const listConfiguration = useMemo(
 		() => ({
 			performance: Performance,
-			visibleElements: 9,
+			visibleElements: assetsRowConfig.list.visibleElements,
 			config: {
-				navigatableElements: 7,
-				scrolling: {
-					first: Tile.width / 1.3,
-					other: Tile.width,
-				},
+				navigatableElements: assetsRowConfig.list.navigatableElements,
+				scrolling: assetsRowConfig.list.scrolling,
 			},
 		}),
 		[],

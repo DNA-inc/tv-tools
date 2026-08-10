@@ -1,10 +1,12 @@
 import type { SeriesAsset } from '@salik1992/test-app-data/types';
 import { useDataProvider } from '../../data';
 import { AssetsRow } from '../AssetsRow';
+import { detailConfig } from '../Detail/Detail.config';
 import { DetailPoster } from '../DetailPoster';
+import { detailPosterConfig } from '../DetailPoster/DetailPoster.config';
 import { DetailRating } from '../DetailRating';
 import { Overview } from '../Overview';
-import { H1, P, ROW } from '../Typography';
+import { H1, P } from '../Typography';
 import * as css from './DetailSeries.module.scss';
 
 export const DetailSeries = ({
@@ -20,7 +22,7 @@ export const DetailSeries = ({
 		<>
 			<DetailPoster
 				$src={dataProvider.getImageUrl(asset, ['poster'], {
-					width: 200,
+					width: detailPosterConfig.imageWidthPx,
 				})}
 			/>
 			<H1>{asset.title}</H1>
@@ -33,7 +35,7 @@ export const DetailSeries = ({
 			<Overview
 				key={`overview-${asset.type}-${asset.id}`}
 				overview={asset.description}
-				onFocus={scroll(0)}
+				onFocus={scroll(detailConfig.scrollLandmarksPx.overview)}
 				focusOnMount
 			/>
 			<AssetsRow
@@ -46,7 +48,7 @@ export const DetailSeries = ({
 					pageItemType: 'person',
 				}}
 				showDetail={false}
-				onFocus={scroll(7 * ROW)}
+				onFocus={scroll(detailConfig.scrollLandmarksPx.castAndCrew)}
 				paginate
 			/>
 			<AssetsRow
@@ -59,7 +61,7 @@ export const DetailSeries = ({
 					pageItemType: 'series',
 				}}
 				showDetail={false}
-				onFocus={scroll(14 * ROW)}
+				onFocus={scroll(detailConfig.scrollLandmarksPx.related)}
 				paginate
 			/>
 		</>

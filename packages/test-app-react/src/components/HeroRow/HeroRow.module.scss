@@ -1,6 +1,6 @@
 @use '../Hero/variables' as hero;
 @use '../MouseArrows/MouseArrows.scss' as m;
-@use '../Theme/transition' as t;
+@use '../Theme/transition' as tr;
 @use '../Typography/sizes' as sizes;
 
 .wrap {
@@ -36,7 +36,7 @@
 	}
 
 	:global(.list-inner-wrap) {
-		@include t.transition(transform);
+		@include tr.transition(transform);
 	}
 }
 

@@ -1,7 +1,9 @@
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import type { CanonicalizeContext, Importer } from 'sass';
+import { scssDynamicTokenBindings } from './src/components/Theme/scssBindings';
 import {
+	type ScssDynamicTokenBinding,
 	type TokenValue,
 	scssTokenBindings,
 	tokens,
@@ -10,19 +12,34 @@ import {
 const COMPONENTS_DIR = path.resolve(__dirname, 'src/components');
 const VIRTUAL_QUERY = 'tv-tools-theme-tokens';
 
+type StaticBinding = (typeof scssTokenBindings)[number];
+type ResolvedBinding =
+	| { kind: 'static'; binding: StaticBinding }
+	| { kind: 'dynamic'; binding: ScssDynamicTokenBinding };
+
+const moduleBaseNameOf = (resolvedPath: string): string => {
+	const rawBase = path.basename(resolvedPath, path.extname(resolvedPath));
+	return rawBase.startsWith('_') ? rawBase.slice(1) : rawBase;
+};
+
 const bindingFromResolvedPath = (
 	resolvedPath: string,
-): (typeof scssTokenBindings)[number] | null => {
+): ResolvedBinding | null => {
 	const dir = path.dirname(resolvedPath);
-	const rawBase = path.basename(resolvedPath, path.extname(resolvedPath));
-	const moduleBaseName = rawBase.startsWith('_') ? rawBase.slice(1) : rawBase;
-	return (
-		scssTokenBindings.find(
-			(b) =>
-				path.join(COMPONENTS_DIR, b.folder) === dir &&
-				b.moduleBaseName === moduleBaseName,
-		) ?? null
+	const moduleBaseName = moduleBaseNameOf(resolvedPath);
+	const staticBinding = scssTokenBindings.find(
+		(b) =>
+			path.join(COMPONENTS_DIR, b.folder) === dir &&
+			b.moduleBaseName === moduleBaseName,
 	);
+	if (staticBinding) return { kind: 'static', binding: staticBinding };
+	const dynamicBinding = scssDynamicTokenBindings.find(
+		(b) =>
+			path.join(COMPONENTS_DIR, b.folder) === dir &&
+			b.moduleBaseName === moduleBaseName,
+	);
+	if (dynamicBinding) return { kind: 'dynamic', binding: dynamicBinding };
+	return null;
 };
 
 const UNIT_ALIASES: Record<string, string> = {
@@ -42,21 +59,21 @@ const renderValue = (tokenValue: TokenValue): string => {
 	return `${n}${cssUnit}`;
 };
 
+/** Maps TS token keys (camelCase) to SCSS variable names (kebab-case). */
+const tokenKeyToScssName = (key: string) =>
+	key.replace(/[A-Z]/g, (c) => `-${c.toLowerCase()}`);
+
 const renderModule = (entries: Record<string, TokenValue>) =>
 	Object.entries(entries)
 		.map(
 			([cssProperty, cssPropertyValue]) =>
-				`$${cssProperty}: ${renderValue(cssPropertyValue)};`,
+				`$${tokenKeyToScssName(cssProperty)}: ${renderValue(cssPropertyValue)};`,
 		)
 		.join('\n') + '\n';
 
-const buildVirtualUrl = (binding: (typeof scssTokenBindings)[number]): URL => {
+const buildVirtualUrl = (folder: string, moduleBaseName: string): URL => {
 	const url = pathToFileURL(
-		path.join(
-			COMPONENTS_DIR,
-			binding.folder,
-			`_${binding.moduleBaseName}.scss`,
-		),
+		path.join(COMPONENTS_DIR, folder, `_${moduleBaseName}.scss`),
 	);
 	url.search = VIRTUAL_QUERY;
 	return url;
@@ -64,7 +81,10 @@ const buildVirtualUrl = (binding: (typeof scssTokenBindings)[number]): URL => {
 
 /**
  * Custom Sass importer: `@use '<Folder>/<moduleBaseName>'` resolves to
- * `tokens[binding.tokensKey]` — see `scssTokenBindings` in `tokens.ts`.
+ * either a static token group from `scssTokenBindings` (in `tokens.ts`)
+ * or a dynamically-computed group from `scssDynamicTokenBindings`
+ * (via `Theme/scssBindings.ts`). Dynamic bindings let SCSS
+ * consume values that are computed in TypeScript at build time.
  */
 export const themeImporter: Importer<'sync'> = {
 	canonicalize(url: string, context: CanonicalizeContext) {
@@ -75,17 +95,24 @@ export const themeImporter: Importer<'sync'> = {
 			containing ? path.dirname(containing) : COMPONENTS_DIR,
 			url,
 		);
-		const binding = bindingFromResolvedPath(resolved);
-		return binding ? buildVirtualUrl(binding) : null;
+		const resolvedBinding = bindingFromResolvedPath(resolved);
+		if (!resolvedBinding) return null;
+		return buildVirtualUrl(
+			resolvedBinding.binding.folder,
+			resolvedBinding.binding.moduleBaseName,
+		);
 	},
 	load(canonicalUrl) {
 		if (canonicalUrl.search !== `?${VIRTUAL_QUERY}`) return null;
 		const resolvedPath = fileURLToPath(canonicalUrl);
-		const binding = bindingFromResolvedPath(resolvedPath);
-		if (!binding) return null;
-		const entries = (tokens as Record<string, Record<string, TokenValue>>)[
-			binding.tokensKey
-		];
+		const resolvedBinding = bindingFromResolvedPath(resolvedPath);
+		if (!resolvedBinding) return null;
+		const entries =
+			resolvedBinding.kind === 'static'
+				? (tokens as Record<string, Record<string, TokenValue>>)[
+						resolvedBinding.binding.tokensKey
+					]
+				: resolvedBinding.binding.getValues();
 		if (!entries) return null;
 		return {
 			contents: renderModule(entries),

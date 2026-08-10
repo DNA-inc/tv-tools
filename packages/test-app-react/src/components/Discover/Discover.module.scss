@@ -38,7 +38,7 @@
 			}
 		}
 
-		&:hover :glboal(.mouse-arrow) {
+		&:hover :global(.mouse-arrow) {
 			opacity: 0.5;
 
 			&:hover {
