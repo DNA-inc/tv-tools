@@ -1,0 +1,39 @@
+tasks:
+    tv-tools:
+        cmd: npm run watch -w @salik1992/tv-tools
+    tv-tools-react:
+        cmd: npm run watch -w @salik1992/tv-tools-react
+        deps: [tv-tools]
+    test-app-data:
+        cmd: npm run watch -w @salik1992/test-app-data
+    test-app-data-tmdb:
+        cmd: npm run watch -w @salik1992/test-app-data-tmdb
+        deps: [test-app-data]
+    test-app-react:
+        cmd: npm run dev -w @salik1992/test-app-react
+        deps: [tv-tools-react, test-app-data-tmdb]
+    build-tv-tools:
+        cmd: npm run build -w @salik1992/tv-tool
+    build-tv-tools-react:
+        cmd: npm run build -w @salik1992/tv-tools-react
+        deps: [build-tv-tools]
+    build-test-app-data:
+        cmd: npm run build -w @salik1992/test-app-data
+    build-test-app-data-tmdb:
+        cmd: npm run build -w @salik1992/test-app-data-tmdb
+        deps: [build-test-app-data]
+    build-test-app-react:
+        cmd: npm run build -w @salik1992/test-app-react
+        deps: [build-tv-tools-react, build-test-app-data-tmdb]
+    lintcheck:
+        cmd: npm run lintcheck
+        type: job
+    test:
+        cmd: npm run test
+        type: job
+    typecheck:
+        cmd: npm run typecheck
+        type: job
+    coverage:
+        cmd: npm run coverage
+        type: job
