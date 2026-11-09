@@ -1,3 +1,9 @@
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset=".github/assets/nodus-tv/hero-dark.jpg">
+  <source media="(prefers-color-scheme: light)" srcset=".github/assets/nodus-tv/hero-light.jpg">
+  <img alt="Nodus TV, Smart TV Toolkit. Open-source tools by DNA.inc" src=".github/assets/nodus-tv/hero-light.jpg">
+</picture>
+
 # TV Tools
 This repository contains the code for the tools to simplify development of applications
 that are targeted for televisions, set-top-boxes and other devices being controlled
